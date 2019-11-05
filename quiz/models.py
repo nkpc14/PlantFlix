@@ -22,6 +22,7 @@ class Question(models.Model):
 
 
 class Quiz(models.Model):
+    users = models.ManyToManyField(User)
     name = models.CharField(max_length=255)
     duration = models.IntegerField()
     questions = models.ManyToManyField(Question)
@@ -31,10 +32,10 @@ class Quiz(models.Model):
 
 
 class UserAnswer(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    users = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
     answer = models.CharField(max_length=10)
 
     def __str__(self):
-        return self.user
+        return str(self.question) + '--' + self.answer

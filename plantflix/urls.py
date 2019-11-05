@@ -7,11 +7,12 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name='index.html')),
-    path('users/', include('user.urls')),
+    path('users/', include('useraccount.urls')),
     path('course/', include('course.urls')),
     path('quiz/', include('quiz.urls')),
     path('manage/', include('management.urls')),
     path('auth/', include('rest_auth.urls')),
+    path('auth/reg/', include('rest_auth.registration.urls')),
     path('admin/', admin.site.urls),
 ]
 urlpatterns += staticfiles_urlpatterns()

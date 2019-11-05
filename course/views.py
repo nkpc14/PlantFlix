@@ -17,3 +17,11 @@ class CourseViewSet(ReadOnlyModelViewSet):
     queryset = Course.objects.all()
     serializer_class = CourseSerializer
     permission_classes = [IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        if request.user:
+            queryset = Course.objects.filter(users__in=[request.user])
+            return Response(CourseSerializer(queryset, many=True).data)
+        else:
+            queryset = Course.objects.filter(id=-1)
+            return Response(CourseSerializer(queryset, many=True).data)

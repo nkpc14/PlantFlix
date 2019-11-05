@@ -15,10 +15,18 @@ class MessagesViewSet(ReadOnlyModelViewSet):
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
 
+    def list(self, request, *args, **kwargs):
+        if request.user:
+            queryset = Messages.objects.filter(users__in=[request.user])
+            return Response(MessagesSerializer(queryset, many=True).data)
+        else:
+            queryset = Messages.objects.filter(id=-1)
+            return Response(MessagesSerializer(queryset, many=True).data)
+
 
 class AnnouncementsViewSet(ReadOnlyModelViewSet):
     queryset = Announcements.objects.all()
-    serializer_class = Announcements
+    serializer_class = AnnouncementsSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
@@ -27,11 +35,20 @@ class AnnouncementsViewSet(ReadOnlyModelViewSet):
 
 class FounderMessageViewSet(ReadOnlyModelViewSet):
     queryset = FounderMessage.objects.all()
-    serializer_class = FounderMessage
+    serializer_class = FounderMessageSerializer
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
         return self.list(request, *args, **kwargs)
+
+
+class FacultyViewSet(ReadOnlyModelViewSet):
+    queryset = Faculty.objects.all()
+    serializer_class = FacultySerializer
+    permission_classes = [IsAuthenticated]
+
+    # def get(self, request, *args, **kwargs):
+    #     return self.list(request, *args, **kwargs)
 
 
 class ContactUsViewSet(ReadOnlyModelViewSet):

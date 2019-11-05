@@ -6,6 +6,7 @@ from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.viewsets import ReadOnlyModelViewSet
 
+
 #
 # class QuestionList(mixins.ListModelMixin, generics.GenericAPIView):
 #     queryset = Question.objects.all()
@@ -20,6 +21,14 @@ class QuizViewSet(ReadOnlyModelViewSet):
     queryset = Quiz.objects.all()
     serializer_class = QuizSerializer
     permission_classes = [IsAuthenticated]
+
+    def list(self, request, *args, **kwargs):
+        if request.user:
+            queryset = Quiz.objects.filter(users__in=[request.user])
+            return Response(QuizSerializer(queryset, many=True).data)
+        else:
+            queryset = Quiz.objects.filter(id=-1)
+            return Response(QuizSerializer(queryset, many=True).data)
 
 
 class UserAnswerViewSet(ReadOnlyModelViewSet):

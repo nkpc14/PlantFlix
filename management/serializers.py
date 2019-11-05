@@ -20,6 +20,12 @@ class FounderMessageSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class FacultySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Faculty
+        fields = '__all__'
+
+
 class ContactUsSerializer(serializers.ModelSerializer):
     class Meta:
         model = ContactUs

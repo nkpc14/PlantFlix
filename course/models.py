@@ -13,9 +13,11 @@ class Video(models.Model):
 
 
 class Course(models.Model):
+    users = models.ManyToManyField(User)
     name = models.CharField(max_length=100)
     videos = models.ManyToManyField(Video)
     about = models.CharField(max_length=5000)
+    thumbnail = models.ImageField()
 
     def __str__(self):
         return self.name
