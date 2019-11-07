@@ -26,6 +26,7 @@ class Quiz(models.Model):
     name = models.CharField(max_length=255)
     duration = models.IntegerField()
     questions = models.ManyToManyField(Question)
+    ended = models.BooleanField(default=False, blank=True)
 
     def __str__(self):
         return self.name
@@ -35,7 +36,12 @@ class UserAnswer(models.Model):
     users = models.ForeignKey(User, on_delete=models.CASCADE)
     quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE)
     question = models.ForeignKey(Question, on_delete=models.CASCADE)
-    answer = models.CharField(max_length=10)
+    answer = models.CharField(max_length=10, choices=(
+        ('A', 'A'),
+        ('B', 'B'),
+        ('C', 'C'),
+        ('D', 'D'),
+    ))
 
     def __str__(self):
         return str(self.question) + '--' + self.answer

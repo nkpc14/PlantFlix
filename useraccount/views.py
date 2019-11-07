@@ -13,10 +13,9 @@ class PlantFlixUserList(mixins.RetrieveModelMixin, generics.GenericAPIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        user = UserAccount.objects.get(pk=request.user.id)
-        print(user.id)
+        user = UserAccount.objects.get(user=request.user.id)
         serializer = PlantFlixUserSerializer(user)
-        return Response( serializer.data)
+        return Response(serializer.data)
 
 
 class PlantFlixUserCreate(mixins.CreateModelMixin, generics.GenericAPIView):

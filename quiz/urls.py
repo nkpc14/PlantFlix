@@ -9,5 +9,6 @@ router.register(r"question", QuestionViewSet)
 router.register(r"quiz", QuizViewSet)
 
 urlpatterns = [
-    path("", include(router.urls))
+    path("", include(router.urls)),
+    path("endTest/<int:id>", QuizUpdateAPIView.as_view(),name="endtest")
 ]
